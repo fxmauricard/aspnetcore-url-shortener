@@ -10,7 +10,7 @@ namespace UrlShortener.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction(controllerName: nameof(ShortUrlsController), actionName: nameof(ShortUrlsController.Index));
+            return RedirectToAction(controllerName: "ShortUrls", actionName: "Index");
         }
 
         public IActionResult About()
