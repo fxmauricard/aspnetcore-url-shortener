@@ -1,0 +1,25 @@
+@model ShortUrl
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Shorten an URL</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="OriginalUrl" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="OriginalUrl" class="form-control" />
+                <span asp-validation-for="OriginalUrl" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Shorten" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>

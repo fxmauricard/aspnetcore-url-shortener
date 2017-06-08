@@ -1,0 +1,8 @@
+@model ShortUrl
+@{
+    ViewData["Title"] = "Short URL";
+}
+
+@Html.DisplayFor(m => m.Id);
+@Html.DisplayFor(m => m.OriginalUrl);
+@ViewData["Path"];
