@@ -1,25 +1,28 @@
 @model ShortUrl
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create a new short URL";
 }
 
-<h2>Create</h2>
-<form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>Shorten an URL</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="OriginalUrl" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="OriginalUrl" class="form-control" />
-                <span asp-validation-for="OriginalUrl" class="text-danger"></span>
+<br />
+
+<div class="jumbotron">
+
+    <h1>URL Shortener</h1>
+
+    <br />
+
+    <p>By entering in a URL in the text field below, we will create a short URL for you!</p>
+
+    <br />
+
+    <form asp-action="Create">
+        <div class="form-horizontal">
+            <div class="input-group input-group-lg">
+                <input asp-for="OriginalUrl" class="form-control" placeholder="Paste the URL to be shorten..." />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Shorten URL</button>
+                </span>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Shorten" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
