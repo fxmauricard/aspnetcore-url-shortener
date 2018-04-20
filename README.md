@@ -30,6 +30,14 @@ I've used the ShortURL class by delight.im to do this work. See [this link](http
 
 You can also see this link: [https://gist.github.com/dgritsko/9554733](https://gist.github.com/dgritsko/9554733).
 
+## Usage
+
+Simply type `dotnet run` on your command prompt and then browse to http://localhost:5000.
+
+**Screenshot of the web application:**
+
+![Screenshot of the ASP.NET Core MVC URL Shortener web application](https://github.com/fxmauricard/aspnetcore-url-shortener/blob/master/UrlShortener-screenshot.png)
+
 ## Conclusion
 
 ASP.NET Core allowed me to do this simple app in the quickest way. So that, I've doing more investigations about the framework.
