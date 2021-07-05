@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace UrlShortener.Controllers
 {
@@ -10,13 +6,6 @@ namespace UrlShortener.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction(controllerName: "ShortUrls", actionName: "Index");
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
