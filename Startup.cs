@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using UrlShortener.Data;
+using UrlShortener.Helpers;
 using UrlShortener.Services;
 
 namespace UrlShortener
@@ -39,6 +41,8 @@ namespace UrlShortener
             services.AddControllersWithViews();
             services.AddDbContext<UrlShortenerContext>(options => options.UseSqlite("filename=shorturls.db"));
             services.AddScoped<IShortUrlService, ShortUrlService>();
+            services.Configure<RouteOptions>(options =>
+                options.ConstraintMap.Add("shorturl", typeof(ShortUrlRouteContraint)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

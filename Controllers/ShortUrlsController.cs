@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using UrlShortener.Helpers;
 using UrlShortener.Models;
 using UrlShortener.Services;
@@ -67,7 +62,7 @@ namespace UrlShortener.Controllers
             return View(shortUrl);
         }
 
-        [HttpGet("/ShortUrls/RedirectTo/{path:required}", Name = "ShortUrls_RedirectTo")]
+        [HttpGet("{path:shorturl}")]
         public IActionResult RedirectTo(string path)
         {
             if (path == null) 
