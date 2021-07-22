@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortener.Helpers;
 using UrlShortener.Models;
@@ -5,6 +6,7 @@ using UrlShortener.Services;
 
 namespace UrlShortener.Controllers
 {
+    [Authorize]
     public class ShortUrlsController : Controller
     {
         private readonly IShortUrlService _service;
