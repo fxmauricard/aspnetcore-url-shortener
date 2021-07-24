@@ -9,24 +9,20 @@ namespace UrlShortener.Controllers
     [Authorize]
     public class ShortUrlsController : Controller
     {
-        private readonly IShortUrlService _service;
+        private readonly IShortUrlService _shortUrlService;
 
         public ShortUrlsController(IShortUrlService service)
         {
-            _service = service;
+            _shortUrlService = service;
         }
 
-        public IActionResult Index()
-        {
-            return RedirectToAction(actionName: nameof(Create));
-        }
-
+        [Route("short-urls/create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("short-urls/create")]
         [ValidateAntiForgeryToken]
         public IActionResult Create(string originalUrl)
         {
@@ -38,7 +34,7 @@ namespace UrlShortener.Controllers
             TryValidateModel(shortUrl);
             if (ModelState.IsValid)
             {
-                _service.Save(shortUrl);
+                _shortUrlService.Save(shortUrl);
 
                 return RedirectToAction(actionName: nameof(Show), routeValues: new { id = shortUrl.Id });
             }
@@ -46,14 +42,10 @@ namespace UrlShortener.Controllers
             return View(shortUrl);
         }
 
-        public IActionResult Show(int? id)
+        [Route("short-urls/{id:int}")]
+        public IActionResult Show(int id)
         {
-            if (!id.HasValue) 
-            {
-                return NotFound();
-            }
-
-            var shortUrl = _service.GetById(id.Value);
+            var shortUrl = _shortUrlService.GetById(id);
             if (shortUrl == null) 
             {
                 return NotFound();
@@ -64,21 +56,6 @@ namespace UrlShortener.Controllers
             return View(shortUrl);
         }
 
-        [HttpGet("{path:shorturl}")]
-        public IActionResult RedirectTo(string path)
-        {
-            if (path == null) 
-            {
-                return NotFound();
-            }
-
-            var shortUrl = _service.GetByPath(path);
-            if (shortUrl == null) 
-            {
-                return NotFound();
-            }
-
-            return Redirect(shortUrl.OriginalUrl);
-        }
+        
     }
 }
