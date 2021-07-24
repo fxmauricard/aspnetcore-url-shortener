@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UrlShortener.Helpers;
 using UrlShortener.Models;
 using UrlShortener.Services;
 
@@ -51,7 +50,7 @@ namespace UrlShortener.Controllers
                 return NotFound();
             }
 
-            ViewData["Path"] = ShortUrlHelper.Encode(shortUrl.Id);
+            ViewData["Path"] = shortUrl.Url;
 
             return View(shortUrl);
         }

@@ -10,8 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Noggin.NetCoreAuth.Config;
 using System;
+using UrlShortener.Constraints;
 using UrlShortener.Data;
-using UrlShortener.Helpers;
 using UrlShortener.Services;
 
 namespace UrlShortener.Start
@@ -55,7 +55,10 @@ namespace UrlShortener.Start
             // Add framework services.
             services.AddControllersWithViews();
             services.AddDbContext<UrlShortenerContext>(options => options.UseSqlite("filename=shorturls.db"));
+            
             services.AddScoped<IShortUrlService, ShortUrlService>();
+            services.AddScoped<IIntEncoder, IntEncodingStrategy>();
+            
             services.Configure<RouteOptions>(options =>
                 options.ConstraintMap.Add("shorturl", typeof(ShortUrlRouteContraint)));
 

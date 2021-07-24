@@ -7,13 +7,11 @@
 using System.Linq;
 using System.Text;
 
-namespace UrlShortener.Helpers
+namespace UrlShortener.Services
 {
     /**
      * ShortURL: Bijective conversion between natural numbers (IDs) and short strings
      *
-     * ShortURL.Encode() takes an ID and turns it into a short string
-     * ShortURL.Decode() takes a short string and turns it into an ID
      *
      * Features:
      * + large alphabet (51 chars) and thus very short resulting strings
@@ -23,24 +21,30 @@ namespace UrlShortener.Helpers
      * Example output:
      * 123456789 <=> pgK8p
      */
-    public class ShortUrlHelper
+    public class IntEncodingStrategy : IIntEncoder
     {
 
         private const string Alphabet = "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
         private static readonly int Base = Alphabet.Length;
 
-        public static string Encode(int num)
+        /// <summary>
+        /// Takes an ID and turns it into a short string
+        /// </summary>
+        public string Encode(int num)
         {
             var sb = new StringBuilder();
             while (num > 0)
             {
                 sb.Insert(0, Alphabet.ElementAt(num % Base));
-                num = num / Base;
+                num /= Base;
             }
             return sb.ToString();
         }
 
-        public static int Decode(string str)
+        /// <summary>
+        /// Takes a short string and turns it into an ID
+        /// </summary>
+        public int Decode(string str)
         {
             var num = 0;
             for (var i = 0; i < str.Length; i++)

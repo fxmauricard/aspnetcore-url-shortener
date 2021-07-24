@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing.Constraints;
 
-namespace UrlShortener.Helpers
+namespace UrlShortener.Constraints
 {
     /// <summary>
     /// 
@@ -13,6 +13,5 @@ namespace UrlShortener.Helpers
         public ShortUrlRouteContraint() : base(@"^[2-9bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ\-_]+$")
         {
         }
-
     }
 }
