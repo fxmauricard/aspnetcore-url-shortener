@@ -1,15 +1,16 @@
+using System.Threading.Tasks;
 using UrlShortener.Models;
 
 namespace UrlShortener.Services
 {
     public interface IShortUrlService
     {
-        ShortUrl GetById(int id);
+        Task<ShortUrl> Create(string url);
 
-        ShortUrl GetByPath(string path);
+        Task<ShortUrl> GetById(int id);
 
-        ShortUrl GetByOriginalUrl(string originalUrl);
+        Task<ShortUrl> GetByPath(string path);
 
-        int Save(ShortUrl shortUrl);
+        Task<ShortUrl> GetByOriginalUrl(string originalUrl);
     }
 }

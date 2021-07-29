@@ -1,87 +1,56 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using UrlShortener.Helpers;
-using UrlShortener.Models;
+using System.Threading.Tasks;
 using UrlShortener.Services;
+using UrlShortener.ViewMosdels;
 
 namespace UrlShortener.Controllers
 {
+    [Authorize]
     public class ShortUrlsController : Controller
     {
-        private readonly IShortUrlService _service;
+        private readonly IShortUrlService _shortUrlService;
 
         public ShortUrlsController(IShortUrlService service)
         {
-            _service = service;
+            _shortUrlService = service;
         }
 
-        public IActionResult Index()
-        {
-            return RedirectToAction(actionName: nameof(Create));
-        }
-
+        [Route("short-urls/create")]
         public IActionResult Create()
         {
-            return View();
+            return View(new CreateShortUrlViewModel());
         }
 
-        [HttpPost]
+        [HttpPost("short-urls/create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string originalUrl)
+        public async Task<IActionResult> Create(CreateShortUrlViewModel model)
         {
-            var shortUrl = new ShortUrl
+            if(!ModelState.IsValid)
             {
-                OriginalUrl = originalUrl
-            };
-
-            TryValidateModel(shortUrl);
-            if (ModelState.IsValid)
-            {
-                _service.Save(shortUrl);
-
-                return RedirectToAction(actionName: nameof(Show), routeValues: new { id = shortUrl.Id });
+                return View(model);
             }
 
-            return View(shortUrl);
+            var shortUrl = await _shortUrlService.Create(model.Url);
+
+            return RedirectToAction(actionName: nameof(Show), routeValues: new { id = shortUrl.Id });
+
         }
 
-        public IActionResult Show(int? id)
+        [Route("short-urls/{id:int}")]
+        public async Task<IActionResult> Show(int id)
         {
-            if (!id.HasValue) 
-            {
-                return NotFound();
-            }
-
-            var shortUrl = _service.GetById(id.Value);
+            var shortUrl = await _shortUrlService.GetById(id);
             if (shortUrl == null) 
             {
                 return NotFound();
             }
 
-            ViewData["Path"] = ShortUrlHelper.Encode(shortUrl.Id);
+            ViewData["Path"] = shortUrl.Url;
 
             return View(shortUrl);
         }
 
-        [HttpGet("/ShortUrls/RedirectTo/{path:required}", Name = "ShortUrls_RedirectTo")]
-        public IActionResult RedirectTo(string path)
-        {
-            if (path == null) 
-            {
-                return NotFound();
-            }
-
-            var shortUrl = _service.GetByPath(path);
-            if (shortUrl == null) 
-            {
-                return NotFound();
-            }
-
-            return Redirect(shortUrl.OriginalUrl);
-        }
+        
     }
 }

@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using UrlShortener.Data;
-using UrlShortener.Helpers;
 using UrlShortener.Models;
 
 namespace UrlShortener.Services
@@ -7,39 +9,46 @@ namespace UrlShortener.Services
     public class ShortUrlService : IShortUrlService
     {
         private readonly UrlShortenerContext _context;
+        private readonly IIntEncoder _intEncoder;
 
-        public ShortUrlService(UrlShortenerContext context)
+        public ShortUrlService(UrlShortenerContext context, IIntEncoder encoder)
         {
             _context = context;
+            _intEncoder = encoder;
         }
 
-        public ShortUrl GetById(int id)
+        public async Task<ShortUrl> Create(string url)
         {
-            return _context.ShortUrls.Find(id);
-        }
+            var shortUrl = new ShortUrl
+            {
+                OriginalUrl = url
+            };
 
-        public ShortUrl GetByPath(string path)
-        {
-            return _context.ShortUrls.Find(ShortUrlHelper.Decode((path)));
-        }
-
-        public ShortUrl GetByOriginalUrl(string originalUrl)
-        {
-            foreach (var shortUrl in _context.ShortUrls) {
-                if (shortUrl.OriginalUrl == originalUrl) {
-                    return shortUrl;
-                }
-            }
-
-            return null;
-        }
-
-        public int Save(ShortUrl shortUrl)
-        {
             _context.ShortUrls.Add(shortUrl);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            
+            shortUrl.Url = _intEncoder.Encode(shortUrl.Id);
+            await _context.SaveChangesAsync();
 
-            return shortUrl.Id;
+            return shortUrl;
+        }
+
+        public async Task<ShortUrl> GetById(int id)
+        {
+            var shortUrl = await _context.ShortUrls.FindAsync(id);            
+            return shortUrl;
+        }
+
+        public async Task<ShortUrl> GetByPath(string path)
+        {
+            var shortUrl = await _context.ShortUrls.FirstOrDefaultAsync(x => x.Url == path);
+            return shortUrl;
+        }
+
+        public async Task<ShortUrl> GetByOriginalUrl(string originalUrl)
+        {
+            var shortUrl = await _context.ShortUrls.FirstOrDefaultAsync(x => x.OriginalUrl == originalUrl);
+            return shortUrl;
         }
     }
 }

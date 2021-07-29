@@ -22,7 +22,7 @@ namespace UrlShortener
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Start.Startup>();
                 });
     }
 }
