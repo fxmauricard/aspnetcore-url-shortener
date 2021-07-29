@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using UrlShortener.Data;
 using UrlShortener.Models;
 
@@ -14,36 +17,38 @@ namespace UrlShortener.Services
             _intEncoder = encoder;
         }
 
-        public ShortUrl GetById(int id)
+        public async Task<ShortUrl> Create(string url)
         {
-            var shortUrl = _context.ShortUrls.Find(id);
-            shortUrl.Url = _intEncoder.Encode(id);
+            var shortUrl = new ShortUrl
+            {
+                OriginalUrl = url
+            };
+
+            _context.ShortUrls.Add(shortUrl);
+            await _context.SaveChangesAsync();
+            
+            shortUrl.Url = _intEncoder.Encode(shortUrl.Id);
+            await _context.SaveChangesAsync();
+
             return shortUrl;
         }
 
-        public ShortUrl GetByPath(string path)
+        public async Task<ShortUrl> GetById(int id)
         {
-            var urlId = _intEncoder.Decode(path);
-            return GetById(urlId);
+            var shortUrl = await _context.ShortUrls.FindAsync(id);            
+            return shortUrl;
         }
 
-        public ShortUrl GetByOriginalUrl(string originalUrl)
+        public async Task<ShortUrl> GetByPath(string path)
         {
-            foreach (var shortUrl in _context.ShortUrls) {
-                if (shortUrl.OriginalUrl == originalUrl) {
-                    return shortUrl;
-                }
-            }
-
-            return null;
+            var shortUrl = await _context.ShortUrls.FirstOrDefaultAsync(x => x.Url == path);
+            return shortUrl;
         }
 
-        public int Save(ShortUrl shortUrl)
+        public async Task<ShortUrl> GetByOriginalUrl(string originalUrl)
         {
-            _context.ShortUrls.Add(shortUrl);
-            _context.SaveChanges();
-
-            return shortUrl.Id;
+            var shortUrl = await _context.ShortUrls.FirstOrDefaultAsync(x => x.OriginalUrl == originalUrl);
+            return shortUrl;
         }
     }
 }

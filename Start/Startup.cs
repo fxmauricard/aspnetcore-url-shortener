@@ -54,7 +54,8 @@ namespace UrlShortener.Start
 
             // Add framework services.
             services.AddControllersWithViews();
-            services.AddDbContext<UrlShortenerContext>(options => options.UseSqlite("filename=shorturls.db"));
+            services.AddDbContext<UrlShortenerContext>(options =>
+                options.UseSqlServer("name=ConnectionStrings:NogimDb"));
             
             services.AddScoped<IShortUrlService, ShortUrlService>();
             services.AddScoped<IIntEncoder, IntEncodingStrategy>();

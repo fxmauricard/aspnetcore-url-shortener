@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UrlShortener.Models;
+using System.Threading.Tasks;
 using UrlShortener.Services;
+using UrlShortener.ViewMosdels;
 
 namespace UrlShortener.Controllers
 {
@@ -18,33 +19,28 @@ namespace UrlShortener.Controllers
         [Route("short-urls/create")]
         public IActionResult Create()
         {
-            return View();
+            return View(new CreateShortUrlViewModel());
         }
 
         [HttpPost("short-urls/create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string originalUrl)
+        public async Task<IActionResult> Create(CreateShortUrlViewModel model)
         {
-            var shortUrl = new ShortUrl
+            if(!ModelState.IsValid)
             {
-                OriginalUrl = originalUrl
-            };
-
-            TryValidateModel(shortUrl);
-            if (ModelState.IsValid)
-            {
-                _shortUrlService.Save(shortUrl);
-
-                return RedirectToAction(actionName: nameof(Show), routeValues: new { id = shortUrl.Id });
+                return View(model);
             }
 
-            return View(shortUrl);
+            var shortUrl = await _shortUrlService.Create(model.Url);
+
+            return RedirectToAction(actionName: nameof(Show), routeValues: new { id = shortUrl.Id });
+
         }
 
         [Route("short-urls/{id:int}")]
-        public IActionResult Show(int id)
+        public async Task<IActionResult> Show(int id)
         {
-            var shortUrl = _shortUrlService.GetById(id);
+            var shortUrl = await _shortUrlService.GetById(id);
             if (shortUrl == null) 
             {
                 return NotFound();

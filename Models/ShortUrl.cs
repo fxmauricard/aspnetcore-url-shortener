@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UrlShortener.Models
 {
@@ -7,10 +6,10 @@ namespace UrlShortener.Models
     {
         public int Id { get; init; }
         
-        [Required]
+        [Required, StringLength(128)]
         public string OriginalUrl { get; init; }
 
-        [NotMapped]
-        public object Url { get; set; }
+        [StringLength(16)]
+        public string Url { get; set; }
     }
 }

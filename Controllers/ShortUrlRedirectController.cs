@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using UrlShortener.Services;
 
 namespace UrlShortener.Controllers
@@ -13,14 +14,14 @@ namespace UrlShortener.Controllers
         }
 
         [HttpGet("{path:shorturl}")]
-        public IActionResult RedirectTo(string path)
+        public async Task<IActionResult> RedirectTo(string path)
         {
             if (path == null)
             {
                 return NotFound();
             }
 
-            var shortUrl = _shortUrlService.GetByPath(path);
+            var shortUrl = await _shortUrlService.GetByPath(path);
             if (shortUrl == null)
             {
                 return NotFound();

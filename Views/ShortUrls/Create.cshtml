@@ -1,4 +1,4 @@
-﻿@model ShortUrl
+﻿@model UrlShortener.ViewMosdels.CreateShortUrlViewModel
 @{
     ViewData["Title"] = "Create a new short URL";
 }
@@ -18,7 +18,7 @@
     <form asp-action="Create">
         <div class="form-horizontal">
             <div class="input-group input-group-lg">
-                <input asp-for="OriginalUrl" class="form-control" placeholder="Paste the URL to be shorten..." />
+                <input asp-for="Url" class="form-control" placeholder="Paste the URL to be shorten..." />
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="submit">Shorten URL</button>
                 </span>
