@@ -13,9 +13,9 @@ I've chosen to implement an URL shortener application because it's pretty simple
 
 So, how works an URL shortener?
 
-Basicaly, we store the URL in database, so it has a numeric ID, an we convert it to a another base in order to have a "stringified" version of the ID.
+Basically, we store the URL in database, so it has a numeric ID, and we convert it to a another base in order to have a "stringified" version of the ID.
 
-When we have the short URL the process is:
+When we have the short URL, the process is:
 - convert the "stringified" ID to the numeric ID.
 - load the data from DB.
 - redirect to the original URL using an HTTP redirection.
@@ -24,7 +24,7 @@ More theory here in [this stackoverflow topic](https://stackoverflow.com/questio
 
 ## Implementation
 
-For the stringification, I've chosen base 62 with this alphabet : "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_".
+For the stringification, I've chosen base 62 with this alphabet: "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_".
 
 I've used the ShortURL class by delight.im to do this work. See [this link](https://github.com/delight-im/ShortURL) for more information about it.
 
@@ -32,12 +32,12 @@ You can also see this link: [https://gist.github.com/dgritsko/9554733](https://g
 
 ## Usage
 
-First, you have to type `dotnet restore` in order to retrieve the dependancies of the project.
+First, you have to type `dotnet restore` in order to retrieve the dependencies of the project.
 
-The projet is using SQLite as DB backed. The data file is named `shorturls.db` by default.
-You can change this by modifying the line 35 of the file `Startup.cs`.
+The project is using SQLite as DB backend. The data file is named `shorturls.db` by default.
+You can change this by modifying the line 45 of the file `Startup.cs`.
 
-In order to init the DB schema, you have to rune the command `dotnet ef database update`.
+In order to init the DB schema, you have to run the command `dotnet ef database update`.
 
 Then, simply type `dotnet run` on your command prompt and then browse to http://localhost:5000.
 
