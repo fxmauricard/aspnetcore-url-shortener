@@ -27,9 +27,9 @@ This is an ASP.NET Core MVC URL shortener web application that demonstrates basi
 ### Key Components
 
 1. **ShortUrlHelper** (`Helpers/ShortUrlHelper.cs`)
-   - Provides base-62 bijective conversion between numeric IDs and short strings
+   - Provides bijective conversion between numeric IDs and short strings using a 51-character alphabet
    - Uses custom alphabet: "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_"
-   - Avoids offensive words and ambiguous characters
+   - Avoids offensive words (removed vowels) and ambiguous characters (removed I, l, 1, O, 0)
    - Third-party code from delight.im (MIT licensed)
 
 2. **ShortUrlService** (`Services/ShortUrlService.cs`)
@@ -107,13 +107,13 @@ dotnet ef database update <MigrationName>
 ## Important Notes
 
 ### URL Shortening Algorithm
-- Numeric IDs are converted to base-62 strings using ShortUrlHelper
+- Numeric IDs are converted to short strings using ShortUrlHelper with a 51-character alphabet
 - Encoding: `int id` → `string shortCode`
 - Decoding: `string shortCode` → `int id`
 - The algorithm is bijective (one-to-one mapping)
 
 ### Configuration
-- Connection string for SQLite is in `Startup.cs` line 45: `"filename=shorturls.db"`
+- SQLite database connection string is configured in the `ConfigureServices` method of `Startup.cs` (default: `"filename=shorturls.db"`)
 - App settings are in `appsettings.json` and `appsettings.Development.json`
 - Cookie policy requires user consent (GDPR compliance)
 
