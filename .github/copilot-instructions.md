@@ -6,10 +6,10 @@ This is an ASP.NET Core MVC URL shortener web application that demonstrates basi
 
 ## Technology Stack
 
-- **Framework**: ASP.NET Core 2.1 MVC
-- **Language**: C# (.NET Core)
-- **Database**: SQLite with Entity Framework Core 2.1
-- **Frontend**: MVC Razor Views, Bootstrap, jQuery (via Bower)
+- **Framework**: ASP.NET Core (.NET 10.0)
+- **Language**: C# 
+- **Database**: SQLite with Entity Framework Core 10.0.1
+- **Frontend**: MVC Razor Views, Bootstrap 3.3.7, jQuery 2.2.0 (via Bower)
 - **Build System**: .NET CLI (`dotnet`)
 
 ## Architecture and Structure
@@ -113,7 +113,7 @@ dotnet ef database update <MigrationName>
 - The algorithm is bijective (one-to-one mapping)
 
 ### Configuration
-- SQLite database connection string is configured in the `ConfigureServices` method of `Startup.cs` (default: `"filename=shorturls.db"`)
+- SQLite database connection string is configured in the `ConfigureServices` method of `Startup.cs` on line 40 (default: `"filename=shorturls.db"`)
 - App settings are in `appsettings.json` and `appsettings.Development.json`
 - Cookie policy requires user consent (GDPR compliance)
 
@@ -171,10 +171,15 @@ dotnet ef database update <MigrationName>
 ## Dependencies
 
 Key NuGet packages:
-- `Microsoft.AspNetCore.App` (2.1.22) - ASP.NET Core metapackage
-- `Microsoft.EntityFrameworkCore.Sqlite` (2.1.1) - SQLite database provider
-- `BuildBundlerMinifier` (2.8.391) - CSS/JS bundling and minification
-- `Microsoft.VisualStudio.Web.BrowserLink` (2.1.1) - Development-time browser sync
+- `Microsoft.EntityFrameworkCore.Sqlite` (10.0.1) - SQLite database provider
+- `Microsoft.EntityFrameworkCore.Design` (10.0.1) - Entity Framework Core design-time components
+- `BuildBundlerMinifier` (3.2.449) - CSS/JS bundling and minification
+
+Bower packages (frontend):
+- `bootstrap` (3.3.7) - CSS framework
+- `jquery` (2.2.0) - JavaScript library
+- `jquery-validation` (1.14.0) - Client-side validation
+- `jquery-validation-unobtrusive` (3.2.6) - Unobtrusive validation
 
 ## Resources
 
