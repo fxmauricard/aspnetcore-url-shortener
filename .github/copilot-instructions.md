@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is an ASP.NET Core MVC URL shortener web application that demonstrates basic CRUD operations and URL redirection patterns. The application converts numeric IDs to short alphanumeric strings using base-62 encoding with a custom alphabet.
+This is an ASP.NET Core MVC URL shortener web application that demonstrates basic CRUD operations and URL redirection patterns. The application converts numeric IDs to short alphanumeric strings using a custom 51-character alphabet.
 
 ## Technology Stack
 
@@ -18,7 +18,7 @@ This is an ASP.NET Core MVC URL shortener web application that demonstrates basi
 - `Controllers/` - MVC controllers (HomeController, ShortUrlsController)
 - `Models/` - Data models (ShortUrl entity)
 - `Services/` - Business logic services (ShortUrlService)
-- `Helpers/` - Utility classes (ShortUrlHelper for base-62 encoding)
+- `Helpers/` - Utility classes (ShortUrlHelper for ID encoding)
 - `Data/` - Entity Framework DbContext (UrlShortenerContext)
 - `Views/` - Razor view templates
 - `Migrations/` - Entity Framework database migrations
