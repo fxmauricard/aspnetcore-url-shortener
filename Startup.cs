@@ -41,7 +41,7 @@ namespace UrlShortener
 
             // Add framework services.
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<UrlShortenerContext>(options => options.UseSqlite("filename=shorturls.db"));
             services.AddScoped<IShortUrlService, ShortUrlService>();
         }
